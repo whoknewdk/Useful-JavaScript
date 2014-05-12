@@ -9,7 +9,7 @@
 	}
 
 	var delegateEvents = Backbone.View.prototype.delegateEvents,
-		eventKeyNameSplitter = /^(\S+):iskey\((13)\)\s(.*)$/;
+		eventKeyNameSplitter = /^(\S+):iskey\((\d)\)\s(.*)$/;
 
 	Backbone.View.prototype.delegateEvents = function (events) {
 		if (!(events || (events = _.result(this, 'events'))))
@@ -34,7 +34,8 @@
 				continue;
 
 			// Add sanitized key
-			events[match[1] + ' ' + match[3]] = ifKeyIs(parseInt(match[2], 10), method);
+			var keyCode = parseInt(match[2], 10);
+			events[match[1] + ' ' + match[3]] = ifKeyIs(keyCode, method);
 		}
 
 		// Run everything as normal
